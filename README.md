@@ -1,12 +1,12 @@
 # 🚀 Astra: Space Shooter
 
-> A retro-inspired 2D space shooter built with HTML5 Canvas.
+> A retro-inspired 2D space shooter built with HTML5 Canvas. (WEB ONLY: PC & MAC)
 
 ### ⌨️ Controls
 | Action | Key |
 | :--- | :--- |
 | **Move** | `W`, `A`, `S`, `D` or Arrow Keys |
-| **Shoot** | `Spacebar` or `Left Click` |
+| **Shoot** | `Spacebar` |
 ### 🎮 Game
 
 **Objective:** Pilot the Astra fighter and defend the sector against alien waves. 
