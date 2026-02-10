@@ -31,4 +31,9 @@ The game features a persistent **Local Leaderboard** that tracks your combat eff
 > **Had a satisfying run? Post your stats on the leaderboard!** 
 
 ---
+
+### 🛠 Developer Iteration Notes
+> "During playtesting, I observed that players were repeatedly spamming the firing mechanic, which disrupted game balance. To address this, I implemented a firing cooldown system that limits consecutive shots and enforces pacing."
+
+---
 [**➡️ PLAY THE GAME HERE**](https://danielchavez-w.github.io/Astra-Space-Shooter/)
