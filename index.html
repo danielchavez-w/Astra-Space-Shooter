@@ -922,17 +922,22 @@
         class Bullet {
             constructor(x, y, isEnemy = false) {
                 this.x = x; this.y = y; this.w = 4; this.h = 12;
-                this.isEnemy = isEnemy; 
-                this.speed = isEnemy ? 7 : 15; 
+                this.isEnemy = isEnemy;
+                this.speed = isEnemy ? 7 : 15;
                 this.color = isEnemy ? '#ff3366' : '#00f260'; this.active = true;
-                if (isEnemy) { if (Math.random() < 0.3) AudioSys.enemyShoot(); } else { 
-                    AudioSys.shoot(); 
-                    if (!isEnemy) totalShots++; 
+                this.life = 1.0; this.fading = false;
+                if (isEnemy) { if (Math.random() < 0.3) AudioSys.enemyShoot(); } else {
+                    AudioSys.shoot();
+                    if (!isEnemy) totalShots++;
                 }
             }
-            update(dt) { this.y += (this.isEnemy ? this.speed : -this.speed) * dt; if (this.y < -50 || this.y > height + 50) this.active = false; }
+            update(dt) {
+                this.y += (this.isEnemy ? this.speed : -this.speed) * dt;
+                if (this.y < -50 || this.y > height + 50) this.active = false;
+                if (this.fading) this.life -= 0.025 * dt;
+            }
             draw() {
-                ctx.save(); ctx.fillStyle = this.color; 
+                ctx.save(); ctx.globalAlpha = this.life; ctx.fillStyle = this.color;
                 ctx.fillRect(this.x - this.w/2, this.y - this.h/2, this.w, this.h); ctx.restore();
             }
         }
@@ -1362,10 +1367,10 @@
 
                 for (let i = bullets.length - 1; i >= 0; i--) {
                     let b = bullets[i];
-                    if (gameLogicActive) b.update(dt);
+                    if (gameLogicActive || b.fading) b.update(dt);
                     b.draw();
-                    
-                    if (b.active === false || b.y < -50 || b.y > height + 50) {
+
+                    if (b.active === false || b.life <= 0 || b.y < -50 || b.y > height + 50) {
                         bullets.splice(i, 1);
                         continue;
                     }
@@ -1405,10 +1410,9 @@
 
                 if (gameLogicActive && !waveInProgress && enemies.length === 0 && !player.isDead) {
                     if (currentRound < maxRounds) {
-                        gameLogicActive = false; 
-                        
-                        bullets = [];
-                        particles = [];
+                        gameLogicActive = false;
+
+                        bullets.forEach(b => b.fading = true);
                         
                         messageTitle.innerText = "VICTORY!";
                         messageTitle.style.color = "#fff";
@@ -1472,6 +1476,7 @@
         function endGame(victory) {
             isGameRunning = false;
             gameLogicActive = false;
+            bullets.forEach(b => b.fading = true);
             
             uiLayer.classList.add('hidden');
             currentGameState = victory ? "VICTORY" : "FAILURE";
@@ -1592,6 +1597,20 @@
             nebulas.forEach(n => { n.update(dt); n.draw(); });
             galaxies.forEach(g => { g.update(dt); g.draw(); });
             stars.forEach(s => { s.update(0.5, dt); s.draw(); });
+
+            for (let i = bullets.length - 1; i >= 0; i--) {
+                let b = bullets[i];
+                b.update(dt);
+                b.draw();
+                if (b.life <= 0 || b.y < -50 || b.y > height + 50) bullets.splice(i, 1);
+            }
+            for (let i = particles.length - 1; i >= 0; i--) {
+                let p = particles[i];
+                p.update(dt);
+                p.draw();
+                if (p.life <= 0) particles.splice(i, 1);
+            }
+
             requestAnimationFrame(attractLoop);
         }
         requestAnimationFrame(attractLoop);
