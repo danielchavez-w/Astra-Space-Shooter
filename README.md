@@ -7,6 +7,13 @@
 | :--- | :--- |
 | **Move** | `W`, `A`, `S`, `D` or Arrow Keys |
 | **Shoot** | `Spacebar` |
+
+### 🕵️ Secret Commands
+| Action | Key | Note |
+| :--- | :--- | :--- |
+| **Instant Win** | `K` | *I don't suggest it! Ruin the fun at your own risk.* ⚠️ |
+| **Clear Leaderboard** | `Shift` + `Backspace` (PC) <br> `Shift` + `Delete` (Mac) | Wipes all local scores. |
+
 ### 🎮 Game
 
 **Objective:** Pilot the Astra fighter and defend the sector against alien waves. 
@@ -34,6 +41,8 @@ The game features a persistent **Local Leaderboard** that tracks your combat eff
 
 ### 🛠 Developer Iteration Notes
 > "During playtesting, I observed that players were repeatedly spamming the firing mechanic, which disrupted game balance. To address this, I implemented a firing cooldown system that limits consecutive shots and enforces pacing."
+
+> "During testing, I observed that enemy explosion particles and player projectiles were being cleared immediately at the end of each round. This caused an abrupt visual cutoff before the victory state. I adjusted the round transition logic to allow active particles and projectiles to fade out naturally before displaying the “Victory!” message, improving visual continuity."
 
 ---
 [**➡️ PLAY THE GAME HERE**](https://danielchavez-w.github.io/Astra-Space-Shooter/)
